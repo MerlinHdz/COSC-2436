@@ -7,6 +7,7 @@
 template<class ItemType>
 ArrayBag<ItemType>::ArrayBag(): itemCount(0), maxItems(DEFAULT_CAPACITY)
 {
+    items = new ItemType[DEFAULT_CAPACITY]
 } // end default constructor
 
 // add
@@ -16,12 +17,30 @@ bool ArrayBag<ItemType>::add(const ItemType& newEntry)
     bool hasRoomToAdd = (itemCount < maxItems);
     if (hasRoomToAdd)
     {
-        items[itemCount] = newEntry;
-        itemCount++;
+        ItemType* oldArray = items;
+        items = new ItemType[2 * maxItems];
+        for (int index = 0; index < maxItems; idex++)
+        {
+            items[index] = oldArray[index];
+        }
+
+        delete [] oldArray;
+        maxItems = 2 * maxItems;
     }   // end if
 
-    return hasRoomToAdd;
+    // We can always add the item
+    items[itemCount] = newEntry;
+    itemCount++;
+
+    return true;
 }   // end add
+
+
+template<class ItemType>
+ArrayBag<ItemType>::~ArrayBag()
+{
+    delete [] items;
+}   // end destructor
 
 
 template<class ItemType>
