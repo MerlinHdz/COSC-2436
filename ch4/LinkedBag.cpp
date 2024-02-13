@@ -16,7 +16,7 @@ bool LinkedBag<ItemType>::add(const ItemType& newEntry)
     // (headPtr is nullptr if chain is empty)
     Node<ItemType>* newNodePtr = new Node<ItemType>();
     newNodePtr->setItem(newEntry);
-    newNotePtr->setNext(headPtr);
+    newNodePtr->setNext(headPtr);
     headPtr = newNodePtr;
     itemCount++;
 
@@ -24,19 +24,34 @@ bool LinkedBag<ItemType>::add(const ItemType& newEntry)
 }   // end add
 
 
+template<class ItemType> // Recursive method
+void LinkedBag<ItemType>::fillVector(std::vector<ItemType>& bagContents, Node<ItemType>* curPtr) const
+{
+    if (curPtr != nullptr)
+    {
+        bagContents.push_back(curPtr->getItem());
+        fillVector(bagContents, curPtr->getNext());
+    }   // end if
+}   // end fillVector
+
+
 template<class ItemType>
 std::vector<ItemType> LinkedBag<ItemType>::toVector() const
 {
-    std::vector<ItemType> bagContents;
-    Node<ItemType>* curPtr = headPtr;
+    // std::vector<ItemType> bagContents;
+    // Node<ItemType>* curPtr = headPtr;
 
-    int counter = 0;
-    while ((curPTr != nullptr) && (counter < itemCount))
-    {
-        bagContents.push_back(curPtr->getItem());
-        curPtr = curPtr->getNext();
-        counter++
-    }   // end while
+    // int counter = 0;
+    // while ((curPTr != nullptr) && (counter < itemCount))
+    // {
+    //     bagContents.push_back(curPtr->getItem());
+    //     curPtr = curPtr->getNext();
+    //     counter++
+    // }   // end while
+    // return bagContents;
+
+    std::vector<ItemType> bagContents;
+    fillVector(bagContents, headPtr);
     return bagContents;
 }   // end toVector
 
@@ -66,7 +81,7 @@ int LinkedBag<ItemType>::getFrequencyOf(const ItemType& anEntry) const
     {
         if (anEntry == curPtr->getItem())
         {
-            frequency++
+            frequency++;
         }
 
         counter++;
@@ -79,43 +94,58 @@ int LinkedBag<ItemType>::getFrequencyOf(const ItemType& anEntry) const
 
 // Returns either a pinter to the node containing a given entry
 // or the null pointer if the entry is not in the bag.
-template<class ItemType>
-Node<ItemType>* LinkedBag<ItemType>::getPointerTo(const ItemType& target) const
-{
-    bool found = false;
-    Node<ItemType>* LinkedBag<ItemType>::getPointerTo(const ItemType& target) const
-    {
-        bool found = false;
-        Node<ItemType>* curPtr = headPtr;
+// template<class ItemType>
+// Node<ItemType>* LinkedBag<ItemType>::getPointerTo(const ItemType& target) const
+// {
+//     bool found = false;
+//     Node<ItemType>* LinkedBag<ItemType>::getPointerTo(const ItemType& target) const
+//     {
+//         bool found = false;
+//         Node<ItemType>* curPtr = headPtr;
 
-        while (!found && (curPtr != nullptr))
-        {
-            if (target == curPtr->getItem())
-                found = true;
-            else
-                curPtr = curPtr->getNext();
-        }   // end while
-    }   return curPtr;
+//         while (!found && (curPtr != nullptr))
+//         {
+//             if (target == curPtr->getItem())
+//                 found = true;
+//             else
+//                 curPtr = curPtr->getNext();
+//         }   // end while
+//     }   return curPtr;
+// }   // end getPointerTo
+
+// recursive
+template<class ItemType>
+Node<ItemType>* LinkedBag<ItemType>::getPointerTo(const ItemType& target, Node<ItemType>* curPtr) const
+{
+    Node<ItemType>* result = nullptr;
+    if (curPtr != nullptr)
+    {
+        if (target == curPtr->getItem())
+            result = curPtr;
+        else
+            result = getPointerTo(target, curPtr->getNext());
+    }   // end if
+    return result;
 }   // end getPointerTo
 
 
 template<class ItemType>
 bool LinkedBag<ItemType>::contains(const ItemType& anEntry) const
 {
-    return (getPointerTo(anEntry) != nullptr);
+    return (getPointerTo(anEntry, headPtr) != nullptr);
 }   // end contains
 
 
 template<class ItemType>
 bool LinkedBag<ItemType>::remove(const ItemType& anEntry)
 {
-    Node<ItemType>* entryNodePtr = getPointerTo(anEntry);
-    bool canRemoveIte = !isEmpty() && (entryNodePtr != nullptr);
+    Node<ItemType>* entryNodePtr = getPointerTo(anEntry, headPtr);
+    bool canRemoveItem = !isEmpty() && (entryNodePtr != nullptr);
 
     if (canRemoveItem)
     {
         // Copy data from first node to located node
-        entryNodePTr->setItem(headPtr->getItem());
+        entryNodePtr->setItem(headPtr->getItem());
 
         // Disconnect first node
         Node<ItemType>* nodeToDeletePtr = headPtr;
@@ -128,7 +158,7 @@ bool LinkedBag<ItemType>::remove(const ItemType& anEntry)
 
         itemCount--;
     }   // end if
-    return canRemoveItem
+    return canRemoveItem;
 }   // end remove
 
 
@@ -181,7 +211,7 @@ LinkedBag<ItemType>::LinkedBag(const LinkedBag<ItemType>& aBag)
         while (origChainPtr != nullptr)
         {
             // Get next item from original chain
-            ItemType nextItem = originChainPtr->getItem();
+            ItemType nextItem = origChainPtr->getItem();
 
             // Create a new node containing the next item
             Node<ItemType>* newNodePtr = new Node<ItemType>(nextItem);
