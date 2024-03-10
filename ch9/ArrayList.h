@@ -18,7 +18,7 @@ private:
     int maxItems;
 
 public:
-    ArrayList()
+    ArrayList();
     // Copy Constructor and destructor are supplied by compiler
 
     bool isEmpty() const;
