@@ -48,6 +48,22 @@ public:
 	// are in this bag.
 	// Returns: A vector containing all the entries in the bag
 	virtual std::vector<ItemType> toVector() const = 0;
+
+	// Sorts Bag items in ascending order using bubble sort
+	// Result: Bag is sorted in ascending order
+	virtual void bubbleSort() = 0;
+
+	// Looks for a an ItemType value, target and determines whether is
+	// is in the Bag or not using binary search.
+	// Inputs: ItemType target the item to search for
+	// Returns: True if bag contains target, false otherwise
+	virtual bool binarySearch(const ItemType target) const = 0;
+
+	// Performs the same function as binarySearch(), but using a 
+	// recursive implementation.
+	// Inputs: ItemType target - the item to search for
+	// Returns: True if bag contains target, false otherwise
+	virtual bool binarySearchRecursive(const ItemType target) const = 0;
   
 	// Destroys object and frees memory allocated by object.
 	virtual ~BagInterface () { }
