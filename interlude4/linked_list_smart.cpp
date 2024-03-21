@@ -1,42 +1,44 @@
 #include <iostream>
+#include <memory>
+
 using namespace std;
 
 class Node
 {
 	private:
 		int item;
-		Node* next;
+		shared_ptr<Node> next;
 	public:
 		Node();
 		int getItem();
-		Node* getNext();
+		shared_ptr<Node> getNext();
 		void setItem(int);
-		void setNext(Node*);
+		void setNext(shared_ptr<Node>);
 };
 
 Node::Node()
 { next = nullptr; }
 int Node::getItem()
 { return item; }
-Node* Node::getNext()
+shared_ptr<Node> Node::getNext()
 { return next; }
 void Node::setItem(int i)
 { item = i; }
-void Node::setNext(Node* n)
+void Node::setNext (shared_ptr<Node> n)
 { next = n; }
 
 const int QUIT = 4;
 
 int getValidMenuOption();
-void add(Node* &);
-void remove(Node* &);
-void remove2(Node* &);
-void display(Node*);
+void add(shared_ptr<Node> &);
+void remove(shared_ptr<Node> &);
+void remove2(shared_ptr<Node> &);
+void display(shared_ptr<Node>);
 
 int main()
 {
 	int option;
-	Node* headPtr = nullptr;
+	shared_ptr<Node> headPtr = nullptr;
 	
 	option = getValidMenuOption();
 	while (option != QUIT)
@@ -79,28 +81,25 @@ int getValidMenuOption()
 	return option;
 }
 
-void add(Node* &startPtr)
+void add(shared_ptr<Node> &startPtr)
 {
 	int num;
-	Node* newNodePtr = nullptr;
+	shared_ptr<Node> newNodePtr;
 	
 	cout << "Enter an integer: ";
 	cin >> num;
 	
-	newNodePtr = new Node();
+	newNodePtr = make_shared<Node>();
 	newNodePtr->setItem(num);
 	
 	newNodePtr->setNext(startPtr);
 	startPtr = newNodePtr;
-	
-	cout << "just added " << startPtr->getItem() << endl;
-	cout << "In add startPtr is " << startPtr << endl;
+
 }
 
-void remove(Node* &startPtr)
+void remove(shared_ptr<Node> &startPtr)
 {
-	Node* curPtr = startPtr;
-	Node* nodeToDeletePtr = nullptr;
+	shared_ptr<Node> curPtr = startPtr;
 	int removeValue;
 	bool found = false;
 	
@@ -118,12 +117,7 @@ void remove(Node* &startPtr)
 	if (found)
 	{
 		curPtr->setItem(startPtr->getItem());
-		nodeToDeletePtr = startPtr;
 		startPtr = startPtr->getNext();
-		
-		nodeToDeletePtr->setNext(nullptr);
-		delete nodeToDeletePtr;
-		nodeToDeletePtr = nullptr;
 		
 		cout << removeValue << " has been removed\n";
 	}
@@ -131,42 +125,44 @@ void remove(Node* &startPtr)
 		cout << removeValue << " was not in the list\n";
 }
 
-void remove2(Node* &startPtr)
+void remove2(shared_ptr<Node> &startPtr)
 {
-	Node* prevPtr = startPtr;
-	Node* nodeToDeletePtr = nullptr;
+	shared_ptr<Node> prevPtr = startPtr;
 	int removeValue;
 	bool found = false;
 	
 	cout << "Enter value to remove: ";
 	cin >> removeValue;
 		
-	while (!found && prevPtr)
+	if (removeValue == startPtr->getItem())
 	{
-		if (removeValue == prevPtr->getNext()->getItem())
-			found = true;
-		else
-			prevPtr = prevPtr->getNext();
-	}
-		
-	if (found)
-	{
-		nodeToDeletePtr = prevPtr->getNext();
-		prevPtr->setNext(nodeToDeletePtr->getNext());
-		
-		nodeToDeletePtr->setNext(nullptr);
-		delete nodeToDeletePtr;
-		nodeToDeletePtr = nullptr;
-		
-		cout << removeValue << " has been removed\n";
+		startPtr = startPtr->getNext();	
+		cout << removeValue << " has been removed\n";	
 	}
 	else
-		cout << removeValue << " was not in the list\n";
+	{
+		while (!found && prevPtr)
+		{
+			if (removeValue == prevPtr->getNext()->getItem())
+				found = true;
+			else
+				prevPtr = prevPtr->getNext();
+		}
+			
+		if (found)
+		{
+			prevPtr->setNext(prevPtr->getNext()->getNext());
+			
+			cout << removeValue << " has been removed\n";
+		}
+		else
+			cout << removeValue << " was not in the list\n";
+	}
 }
 
-void display(Node* startPtr)
+void display(shared_ptr<Node> startPtr)
 {
-	Node* curPtr = startPtr;
+	shared_ptr<Node> curPtr = startPtr;
 	
 	cout << "\nThe list is: \n";
 	
