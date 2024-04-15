@@ -16,12 +16,16 @@ class Node
 
 Node::Node()
 { next = nullptr; }
+
 int Node::getItem()
 { return item; }
+
 Node* Node::getNext()
 { return next; }
+
 void Node::setItem(int i)
 { item = i; }
+
 void Node::setNext(Node* n)
 { next = n; }
 
