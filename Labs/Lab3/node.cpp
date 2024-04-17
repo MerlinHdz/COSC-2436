@@ -1,18 +1,33 @@
+#include "Node.h"
 
+// Constructor
+Node::Node() : category(""), line(""), next(nullptr) {}
 
-#include "node.h"
+// Destructor
+Node::~Node() {}
 
-Node::Node()
-{
-} // end default constructor
-
-Node::setCategory(const std::string aCategory)
-{
-    category = aCategory;
+// Accessors
+std::string Node::getCategory() const {
+    return category;
 }
 
-Node::setLine(const std::string aLine)
-{
-    line = aLine;
+std::string Node::getLine() const {
+    return line;
 }
 
+Node* Node::getNext() const {
+    return next;
+}
+
+// Mutators
+void Node::setCategory(const std::string& newCategory) {
+    category = newCategory;
+}
+
+void Node::setLine(const std::string& newLine) {
+    line = newLine;
+}
+
+void Node::setNext(Node* newNext) {
+    next = newNext;
+}
