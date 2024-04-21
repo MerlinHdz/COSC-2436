@@ -1,10 +1,17 @@
 #include "Node.h"
 
 // Constructor
-Node::Node() : category(""), line(""), next(nullptr) {}
+Node::Node()
+{
+    next = nullptr;
+    category = "";
+    line = "";
+}
 
 // Destructor
-Node::~Node() {}
+Node::~Node()
+{
+}
 
 // Accessors
 std::string Node::getCategory() const {
