@@ -1,3 +1,8 @@
+/**
+ * @file client.cpp
+ * @brief 
+ */
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,12 +12,14 @@ using namespace std;
 
 int main()
 {
+    // Ask the user for a filename
     string filename;
     cout << "Enter the name of the file: ";
     cin >> filename;
 
     ifstream inputFile(filename);
 
+    // Check if file was opened successfully
     if (!inputFile.is_open())
     {
         cout << "Error: Unable to open file." << endl;
@@ -20,27 +27,44 @@ int main()
     }
     else
     {
+        // Create a LinkedList object
         LinkedList myList;
 
         string category;
         string line;
 
+        // Add nodes to the LinkedList from the file's contents, until end of file is reached
         while (getline(inputFile, category) && getline(inputFile, line))
         {
             myList.addNode(category, line);
         }
-
-        
-        // Test display of LinkedList contents
-        cout << myList.getNumItems() << endl;
-        
-
+    
+        // Display the contents of the LinkedList
         cout << "Contents of the LinkedList:" << endl;
         vector<string> listContents = myList.toVector();
 
-        for (int i = 0; i < listContents.size(); i++)
+        string lastCategory = "";
+        bool firstEntry = true; // Flag to know if this is the first entry
+        
+        for (int i = 0; i < listContents.size(); i+=2)
         {
-            cout << listContents[i] << endl;
+            string category = listContents[i];
+            string line = listContents[i+1];
+
+    
+            if (firstEntry || category != lastCategory)
+            {
+                cout << category << endl;
+                cout << "    " << line << endl;
+
+                lastCategory = category;
+                firstEntry = false;
+            }
+            else
+            {
+                // the category is the same as last time
+                cout << "    " << line << endl;
+            }
         }
     }
 

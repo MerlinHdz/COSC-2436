@@ -2,7 +2,6 @@
  * @file LinkedList.cpp
  */
 #include "LinkedList.h"
-#include <iostream> // REMOVE
 
 // Constructor
 LinkedList::LinkedList() : headPtr(nullptr), numItems(0) {}
@@ -63,23 +62,24 @@ void LinkedList::addNode(const std::string& category, const std::string& line)
         Node* current = headPtr;
 
 
-        // Traverse the list -- Category of newNode is NOT in the list
+        // Traverse the list until the category is found or the end of the list is reached
         while (current != nullptr && category != current->getCategory())
         {
             prev = current;
             current = current->getNext();
         } // --
 
+        // Category of newNode IS in the list, find correct position
         while (current != nullptr && category == current->getCategory() && line > current->getLine())
         {
             prev = current;
             current = current->getNext();
         }
 
-        //
+    
         if (prev == nullptr)
         {
-            std::cout << "Hello\n";
+            // newNode becomes the new head
             newNode->setNext(headPtr);
             headPtr = newNode;
         }
@@ -92,13 +92,6 @@ void LinkedList::addNode(const std::string& category, const std::string& line)
 
     numItems++;
 }
-
-
-
-
-
-
-
 
 
 // Convert linked list to vector
