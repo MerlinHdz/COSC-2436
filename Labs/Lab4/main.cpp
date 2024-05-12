@@ -83,6 +83,7 @@ int main() {
                 break;
             case 4:
                 std::cout << "Remove Employee\n";
+                removeEmployee(employeeTree);
                 break;
             case 5:
                 std::cout << "Exit\n";
@@ -97,7 +98,10 @@ int main() {
 }
 
 
-
+/**
+ * @brief Displays options for menu driven program.
+ * Each option is enumerated and in a separate line.
+ */
 void displayMenu()
 {
 	std::cout << "1. Search for an ID\n";
@@ -108,6 +112,11 @@ void displayMenu()
     std::cout << std::endl;
 }
 
+
+/**
+ * @brief Gets the Menu Option from user, validating input
+ * @return int user's choice for menu option
+ */
 int getMenuOption()
 {
     int choice = 0;
@@ -128,6 +137,12 @@ int getMenuOption()
 }   // end getMenuOption
 
 
+/**
+ * @brief Searches for an ID provided by user in the tree
+ * If the employee is found, the employee's name is displayed
+ * Otherwise, a message is displayed
+ * @param tree - a BinarySearchTree of EmployeeInfo objects
+ */
 void searchForID(BinarySearchTree<EmployeeInfo>& tree) {
     int id;
     std::cout << "Enter ID to search for: ";
@@ -145,14 +160,31 @@ void searchForID(BinarySearchTree<EmployeeInfo>& tree) {
 }
 
 
+/**
+ * @brief Displays Employee information at each node of the tree in order
+ * If the tree is empty, a message is displayed
+ * @param tree 
+ */
 void displayTree(BinarySearchTree<EmployeeInfo>& tree) {
-    std::cout << "-- Employee Tree  --\n";
-    tree.inorderTraverse([](EmployeeInfo& employee) {
-        std::cout << "ID: " << employee.getID() << ", Name: " << employee.getEmployeeName() << std::endl;
-    });
-    std::cout << std::endl;
+    if (tree.isEmpty()) {
+        std::cout << "Employee Tree is empty\n\n";
+    }
+    else
+    {
+        std::cout << "-- Employee Tree  --\n";
+        tree.inorderTraverse([](EmployeeInfo& employee) {
+            std::cout << "ID: " << employee.getID() << ", Name: " << employee.getEmployeeName() << std::endl;
+        });
+        std::cout << std::endl;
+    }
 }
 
+
+/**
+ * @brief adds an employee to the tree
+ * It gets the Id and name from user.
+ * @param tree 
+ */
 void addEmployee(BinarySearchTree<EmployeeInfo>& tree) {
     int id;
     std::string name;
@@ -168,6 +200,12 @@ void addEmployee(BinarySearchTree<EmployeeInfo>& tree) {
     std::cout << "Employee added\n\n";
 }
 
+
+/**
+ * @brief removes an employee from the tree
+ * It gets the Id from user.
+ * @param tree 
+ */
 void removeEmployee(BinarySearchTree<EmployeeInfo>& tree) {
     int id;
     std::cout << "Enter ID to remove:";
@@ -175,8 +213,8 @@ void removeEmployee(BinarySearchTree<EmployeeInfo>& tree) {
 
     EmployeeInfo employee(id, "");
     if (tree.remove(employee)) {
-        std::cout << "Employee removed\n";
+        std::cout << "Employee removed\n\n";
     } else {
-        std::cout << "Employee not found\n";
+        std::cout << "Employee not found\n\n";
     }
 }
