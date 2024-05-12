@@ -13,6 +13,8 @@
 #include "BinaryTreeInterface.h"
 #include "BinaryNode.h"
 #include "BinaryNodeTree.h"
+#include "NotFoundException.h"
+#include "PrecondViolatedExcep.h"
 
 template<class ItemType>
 class BinarySearchTree : public BinaryNodeTree<ItemType>
@@ -64,15 +66,15 @@ public:
    //------------------------------------------------------------
    // Public Methods Section.
    //------------------------------------------------------------
-   bool isEmpty() const override;
+    bool isEmpty() const override;
    int getHeight() const override;
    int getNumberOfNodes() const override;
    ItemType getRootData() const throw(PrecondViolatedExcep) override;
-   void setRootData(const ItemType& newData) const; // throw(PrecondViolatedExcep);
+   void setRootData(const ItemType& newData) const throw(PrecondViolatedExcep);
    bool add(const ItemType& newEntry) override;
    bool remove(const ItemType& anEntry) override;
    void clear() override;
-   ItemType getEntry(const ItemType& anEntry) const; // throw(NotFoundException) override;
+   ItemType getEntry(const ItemType& anEntry) const throw(NotFoundException) override;
    bool contains(const ItemType& anEntry) const override;
    
    //------------------------------------------------------------

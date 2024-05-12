@@ -11,6 +11,8 @@
 #include <memory>
 #include "BinaryTreeInterface.h"
 #include "BinaryNode.h"
+#include "PrecondViolatedExcep.h"
+#include "NotFoundException.h"
 
 template<class ItemType>
 class BinaryNodeTree : public BinaryTreeInterface<ItemType>
@@ -79,12 +81,12 @@ public:
    bool isEmpty() const;
    int getHeight() const;
    int getNumberOfNodes() const;
-   ItemType getRootData() const; // 
+   ItemType getRootData() const throw(PrecondViolatedExcep);
    void setRootData(const ItemType& newData);
    bool add(const ItemType& newData); // Adds a node
    bool remove(const ItemType& data); // Removes a node
    void clear();
-   ItemType getEntry(const ItemType& anEntry) const; // 
+   ItemType getEntry(const ItemType& anEntry) const throw(NotFoundException);
    bool contains(const ItemType& anEntry) const;
    
    //------------------------------------------------------------

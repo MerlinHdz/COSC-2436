@@ -285,11 +285,10 @@ void BinaryNodeTree<ItemType>::clear()
 }  // end clear
 
 template<class ItemType>
-ItemType BinaryNodeTree<ItemType>::getRootData() const // throw(PrecondViolatedExcep)
+ItemType BinaryNodeTree<ItemType>::getRootData() const throw(PrecondViolatedExcep)
 {
    if (isEmpty())
-      std::cout << "getRootData() called with empty tree.\n";
-      // throw PrecondViolatedExcep("getRootData() called with empty tree."); 
+      throw PrecondViolatedExcep("getRootData() called with empty tree."); 
       
    return rootPtr->getItem();
 }  // end getRootData
@@ -320,7 +319,7 @@ bool BinaryNodeTree<ItemType>::remove(const ItemType& target)
 }  // end remove
 
 template<class ItemType>
-ItemType BinaryNodeTree<ItemType>::getEntry(const ItemType& anEntry) const // throw(NotFoundException)
+ItemType BinaryNodeTree<ItemType>::getEntry(const ItemType& anEntry) const throw(NotFoundException)
 {
    bool isSuccessful = false;
    auto binaryNodePtr = findNode(rootPtr, anEntry, isSuccessful);
@@ -328,12 +327,11 @@ ItemType BinaryNodeTree<ItemType>::getEntry(const ItemType& anEntry) const // th
    if (isSuccessful)
       return binaryNodePtr->getItem(); 
    else 
-      // throw NotFoundException("Entry not found in tree!");
-      std::cout << "Entry not found in tree!\n";
+      throw NotFoundException("Entry not found in tree!");
 }  // end getEntry
 
 template<class ItemType>
-bool BinaryNodeTree<ItemType>::contains(const ItemType& anEntry) const
+bool BinaryNodeTree<ItemType>:: contains(const ItemType& anEntry) const
 {
    bool isSuccessful = false;
    findNode(rootPtr, anEntry, isSuccessful);

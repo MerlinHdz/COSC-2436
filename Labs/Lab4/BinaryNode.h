@@ -15,15 +15,15 @@ class BinaryNode
 {   
 private:
    ItemType              item;           // Data portion
-   std::shared_ptr<BinaryNode<ItemType> > leftChildPtr;   // Pointer to left child
-   std::shared_ptr<BinaryNode<ItemType> > rightChildPtr;  // Pointer to right child
+   std::shared_ptr<BinaryNode<ItemType>> leftChildPtr;   // Pointer to left child
+   std::shared_ptr<BinaryNode<ItemType>> rightChildPtr;  // Pointer to right child
 
 public:
    BinaryNode();
    BinaryNode(const ItemType& anItem);
    BinaryNode(const ItemType& anItem,
-              std::shared_ptr<BinaryNode<ItemType> > leftPtr,
-              std::shared_ptr<BinaryNode<ItemType> > rightPtr);
+              std::shared_ptr<BinaryNode<ItemType>> leftPtr,
+              std::shared_ptr<BinaryNode<ItemType>> rightPtr);
 
    void setItem(const ItemType& anItem);
    ItemType getItem() const;
