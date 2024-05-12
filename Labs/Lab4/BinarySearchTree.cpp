@@ -94,7 +94,7 @@ auto BinarySearchTree<ItemType>::removeNode(std::shared_ptr<BinaryNode<ItemType>
       nodePtr->setItem(newNodeValue);
       return nodePtr;
       
-      // Alernative way to remove a value in a node with two children; does not require pass-by-reference.
+      // Alternative way to remove a value in a node with two children; does not require pass-by-reference.
       // We need to check whether this right child has a left child.
       // This is similar to the base case in "findSuccessorValue" but we need to remove the
       // special case where the right child *is* the inorder successor
@@ -232,7 +232,7 @@ void BinarySearchTree<ItemType>::clear()
 }  // end clear
 
 template<class ItemType>
-ItemType BinarySearchTree<ItemType>::getRootData() const throw(PrecondViolatedExcep)
+ItemType BinarySearchTree<ItemType>::getRootData() const // throw(PrecondViolatedExcep)
 {
    if (isEmpty())
       throw PrecondViolatedExcep("getRootData() called with empty tree."); 
@@ -242,7 +242,7 @@ ItemType BinarySearchTree<ItemType>::getRootData() const throw(PrecondViolatedEx
 
 // Must override setRootData to disable its affect:
 template<class ItemType>
-void BinarySearchTree<ItemType>::setRootData(const ItemType& newItem) const throw(PrecondViolatedExcep)
+void BinarySearchTree<ItemType>::setRootData(const ItemType& newItem) const // throw(PrecondViolatedExcep)
 {
    throw PrecondViolatedExcep("Cannot change root value in a BST!");
 }  // end setRootData
@@ -267,7 +267,7 @@ bool BinarySearchTree<ItemType>::remove(const ItemType& target)
 
 // Override getEntry to use our improved findNode:
 template<class ItemType>
-ItemType BinarySearchTree<ItemType>::getEntry(const ItemType& anEntry) const throw(NotFoundException)
+ItemType BinarySearchTree<ItemType>::getEntry(const ItemType& anEntry) const // throw(NotFoundException)
 {
    std::shared_ptr<BinaryNode<ItemType>> nodeWithEntry = findNode(rootPtr, anEntry);
    if (nodeWithEntry == nullptr)
