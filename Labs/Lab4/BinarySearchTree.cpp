@@ -280,8 +280,7 @@ ItemType BinarySearchTree<ItemType>::getEntry(const ItemType& anEntry) const // 
 template<class ItemType>
 bool BinarySearchTree<ItemType>::contains(const ItemType& anEntry) const
 {
-
-   return (findNode(rootPtr, anEntry) == nullptr);  // nullptr is same as false
+   return (findNode(rootPtr, anEntry) != nullptr);  // nullptr is same as false
 }  // end contains
 
 //////////////////////////////////////////////////////////////
